@@ -1,0 +1,47 @@
+.quick-search-form {
+  width: 50%;
+  // margin: auto;
+}
+.wrapper {
+  text-align: center;
+  // display: flex;
+  // justify-content: flex-start;
+}
+.quick-search-button {
+  width: 100%;
+}
+
+.quick-search-button > button {
+  width: 50%;
+  // height: 63.5px;
+}
+.search-icon {
+  padding-right: 4px;
+}
+.advanced-search-button {
+  margin: 20px;
+  width: 50%;
+}
+.advanced-search-wrapper {
+  width: 50%;
+  margin: auto;
+}
+.mat-expansion-panel-header-description,
+.mat-expansion-panel-header-title {
+  justify-content: center;
+}
+.accordion,
+mat-expansion-panel {
+  background: none;
+}
+.radio-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.radio-button {
+  margin: 5px;
+  width: 30%;
+}
