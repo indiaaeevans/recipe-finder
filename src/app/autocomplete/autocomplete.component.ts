@@ -61,7 +61,7 @@ export class AutocompleteComponent implements OnInit {
       debounceTime(500),
       distinctUntilChanged(),
       switchMap(value => {
-        console.log('value changed to: ', value);
+        // console.log('value changed to: ', value);
         return value ? this.lookup(value) : of(null);
       })
     );

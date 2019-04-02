@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AutocompleteService } from './autocomplete.service';
 import { IngredientStoreService } from './ingredient-store.service';
 import { ChipListComponent } from './chip-list/chip-list.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ChipListComponent } from './chip-list/chip-list.component';
     PageNotFoundComponent,
     RecipeComponent,
     AutocompleteComponent,
-    ChipListComponent
+    ChipListComponent,
+    SearchResultsComponent
   ],
   imports: [
     BrowserModule,

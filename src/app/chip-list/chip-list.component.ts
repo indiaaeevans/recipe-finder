@@ -11,7 +11,7 @@ import { IngredientStoreService } from '../ingredient-store.service';
         disableRipple="true"
         selected="true"
         (removed)="onRemoveChip(item)"
-        color="accent"
+        [color]="color"
       >
         {{ item }}
         <mat-icon matChipRemove>cancel</mat-icon>
@@ -23,6 +23,7 @@ import { IngredientStoreService } from '../ingredient-store.service';
 export class ChipListComponent implements OnInit {
   @Input() items: [];
   @Input() type: string;
+  @Input() color: string;
   constructor(private ingStore: IngredientStoreService) {}
 
   ngOnInit() {}
