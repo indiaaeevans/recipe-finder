@@ -12,17 +12,57 @@ import { PageEvent } from '@angular/material';
 @Component({
   selector: 'app-search-results',
   template: `
-    <div *ngIf="results" class="cards">
-      <ul>
-        <li *ngFor="let res of results?.results">
-          <mat-card>{{ res | json }}</mat-card>
+    <div *ngIf="results">
+      <ul class="grid">
+        <li
+          *ngFor="let res of results?.results"
+          tabindex="0"
+          class="search-result"
+        >
+          <mat-card class="animate">
+            <div class="img-wrapper">
+              <img
+                mat-card-image
+                [src]="res.image"
+                [alt]="res.title"
+                class="cropped-img clickable-img"
+                (click)="onRecipeSelected(res.id)"
+              />
+              <div class="button-overlay">
+                <a
+                  mat-flat-button
+                  color="accent"
+                  (click)="onRecipeSelected(res.id)"
+                  >View Recipe</a
+                >
+              </div>
+            </div>
+            <mat-card-title>
+              <a
+                mat-button
+                color="primary"
+                (click)="onRecipeSelected(res.id)"
+                alt="View Recipe"
+                class="truncated"
+                [title]="res.title"
+                >{{ res.title }}</a
+              >
+            </mat-card-title>
+            <mat-card-subtitle>{{ res.likes }} likes</mat-card-subtitle>
+          </mat-card>
         </li>
       </ul>
     </div>
+    <div class="no-results" *ngIf="results?.totalResults === 0">
+      No Results Found
+    </div>
     <mat-paginator
-      [length]="10"
+      color="primary"
+      [hidden]="!results?.results"
+      [length]="results.totalResults"
       [pageSize]="pageSize"
       [pageSizeOptions]="pageSizeOptions"
+      (page)="onPageChanged($event)"
     >
     </mat-paginator>
   `,
@@ -59,6 +99,7 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   onRecipeSelected(id) {
     this.router.navigate([`/recipe/${id}`]);
   }
+
   onPageChanged(event: PageEvent) {
     return null;
   }
