@@ -7,30 +7,50 @@
   grid-template-columns: 400px 1fr 200px;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
+  border: #fea172 solid 10px;
+
   // margin: 3% 12%;
 }
 header {
   grid-area: header;
-  text-align: center;
-  background: pink;
+  padding: 20px;
+  // text-align: center;
+  background: #ffbc93;
+  // border-bottom: #c6dc6a solid 10px;
+}
+header button {
+  color: #f7efe3;
+}
+header button mat-icon {
+  font-size: 32px;
+}
+header button:hover {
+  // color: #fddcbf;
+  color: #e26d3b;
 }
 nav {
   grid-area: nav;
   padding: 20px;
-  background: lightblue;
+  background: #f7efe3;
 }
 main {
   grid-area: content;
+  background: white;
 }
 aside {
+  padding: 20px;
   grid-area: side;
-  background: lightgrey;
+  background: #f7efe3;
+}
+aside section {
+  margin-bottom: 30px;
 }
 footer {
   grid-area: footer;
   padding: 50px;
   text-align: center;
-  background: lightcyan;
+  background: #ffbc93;
+  color: #e26d3b;
 }
 .recipe-buttons {
   padding: 10px 30px;
@@ -48,6 +68,7 @@ footer {
   font-size: 32px;
   font-weight: bold;
   margin: 5px;
+  color: #e26d3b;
 }
 .recipe-options {
   text-align: center;
@@ -56,17 +77,40 @@ footer {
 .recipe-img {
   width: 100%;
   height: auto;
+  box-sizing: border-box;
+  // border: white solid 10px;
 }
-.recipe-details > li {
-  margin: 20px 5px;
+.recipe-details {
+  font-size: 12px;
+  color: #fddcbf;
+  display: flex;
+  justify-content: space-between;
 }
 .recipe-credit {
-  color: pink;
-}
-.recipe-credit:hover {
-  color: white;
+  color: #f7efe3;
 }
 .small-img {
+}
+.diets {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+.diets mat-icon {
+  height: 36px;
+  margin-right: 5px;
+}
+.vegan {
+  color: forestgreen;
+}
+.vegetarian {
+  color: orange;
+}
+.dairy {
+  color: lightcoral;
+}
+.gluten {
+  color: brown;
 }
 .step-details ul li,
 .step-details ul {

@@ -15,6 +15,7 @@ import { AutocompleteService } from './autocomplete.service';
 import { IngredientStoreService } from './ingredient-store.service';
 import { ChipListComponent } from './chip-list/chip-list.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
+import { CustomIconComponent } from './custom-icon/custom-icon.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { SearchResultsComponent } from './search-results/search-results.componen
     RecipeComponent,
     AutocompleteComponent,
     ChipListComponent,
-    SearchResultsComponent
+    SearchResultsComponent,
+    CustomIconComponent
   ],
   imports: [
     BrowserModule,

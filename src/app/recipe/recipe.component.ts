@@ -7,16 +7,24 @@ import {
   Recipe,
   RecipeStep
 } from '../recipe-detail.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
 
 @Component({
   selector: 'app-recipe',
   template: `
     <div class="grid-wrapper" *ngIf="(recipe$ | async) as recipe">
       <header>
-        <div class="recipe-buttons">
-          <span>Previous</span>
-          <span>Next</span>
-        </div>
+        <button mat-icon-button>
+          <mat-icon aria-label="Back to Search">arrow_back</mat-icon>
+        </button>
+
+        <button mat-icon-button>
+          <mat-icon aria-label="Link to original recipe">link</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon aria-label="Print Recipe">print</mat-icon>
+        </button>
       </header>
       <nav>
         <h4 class="recipe-title">{{ recipe.title | uppercase }}</h4>
@@ -72,25 +80,40 @@ import {
         </ol>
       </main>
       <aside>
-        <ul class="recipe-details">
-          <li>Makes {{ recipe.servings }} Servings</li>
-          <li>Ready in {{ recipe.readyInMinutes }} minutes</li>
-          <li *ngIf="recipe.cookingMinutes">
-            Cooking Time: {{ recipe.cookingMinutes }}
-          </li>
-          <li *ngIf="recipe.preparationMinutes">
-            Prep Time: {{ recipe.preparationMinutes }}
-          </li>
-          <li *ngIf="recipe.vegetarian">Vegetarian</li>
-          <li *ngIf="recipe.vegan">Vegan</li>
-          <li *ngIf="recipe.glutenFree">Gluten-free</li>
-          <li *ngIf="recipe.dairyFree">Dairy-free</li>
-        </ul>
+        <section class="recipe-times">
+          <p>Makes {{ recipe.servings }} Servings</p>
+          <p>Ready in {{ recipe.readyInMinutes }} minutes</p>
+          <p *ngIf="recipe.cookingMinutes">
+            Cooking Time: {{ recipe.cookingMinutes }} minutes
+          </p>
+          <p *ngIf="recipe.preparationMinutes">
+            Prep Time: {{ recipe.preparationMinutes }} minutes
+          </p>
+        </section>
+        <section class="diets">
+          <div *ngIf="!recipe.vegetarian">
+            <mat-icon svgIcon="vegetarian" class="vegetarian"></mat-icon
+            ><span class="cdk-visually-hidden">Vegetarian</span>
+          </div>
+          <div *ngIf="!recipe.vegan">
+            <mat-icon svgIcon="vegan" class="vegan"></mat-icon
+            ><span class="cdk-visually-hidden">Vegan</span>
+          </div>
+          <div *ngIf="recipe.glutenFree" class="gluten">
+            <mat-icon svgIcon="gluten-free"></mat-icon
+            ><span class="cdk-visually-hidden">Gluten-free</span>
+          </div>
+          <div *ngIf="recipe.dairyFree" class="dairy">
+            <mat-icon svgIcon="dairy-free"></mat-icon
+            ><span class="cdk-visually-hidden">Dairy-free</span>
+          </div>
+        </section>
       </aside>
       <footer>
-        <a [href]="recipe.sourceUrl" class="recipe-credit">{{
-          recipe.creditText
-        }}</a>
+        Credit
+        <span class="recipe-credit">
+          {{ recipe.creditText }}
+        </span>
       </footer>
     </div>
     <ng-template #noImage>
@@ -108,9 +131,28 @@ export class RecipeComponent implements OnInit {
   recipe$: Observable<Recipe>;
   selectedStep: RecipeStep;
   constructor(
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
     private recipeService: RecipeDetailService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    iconRegistry.addSvgIcon(
+      'vegan',
+      sanitizer.bypassSecurityTrustResourceUrl('../../assets/vegan.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'vegetarian',
+      sanitizer.bypassSecurityTrustResourceUrl('../../assets/vegetarian.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'dairy-free',
+      sanitizer.bypassSecurityTrustResourceUrl('../../assets/dairy-free.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'gluten-free',
+      sanitizer.bypassSecurityTrustResourceUrl('../../assets/gluten-free.svg')
+    );
+  }
 
   ngOnInit() {
     this.recipe$ = this.route.paramMap.pipe(
