@@ -106,16 +106,15 @@ const DISH_TYPES = [
             </mat-radio-group>
           </div>
         </div>
-        <div class="advanced-search-button">
-          <button
-            type="button"
-            mat-flat-button
-            color="accent"
-            (click)="onAdvancedSearch()"
-          >
-            Search
-          </button>
-        </div>
+        <button
+          type="button"
+          class="advanced-search-button"
+          mat-flat-button
+          color="accent"
+          (click)="onAdvancedSearch()"
+        >
+          Search
+        </button>
       </mat-expansion-panel>
     </div>
   `,

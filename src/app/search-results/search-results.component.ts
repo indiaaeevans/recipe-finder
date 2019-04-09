@@ -19,7 +19,7 @@ import { PageEvent } from '@angular/material';
           tabindex="0"
           class="search-result"
         >
-          <mat-card class="animate">
+          <mat-card class="animate beige">
             <div class="img-wrapper">
               <img
                 mat-card-image
@@ -29,26 +29,25 @@ import { PageEvent } from '@angular/material';
                 (click)="onRecipeSelected(res.id)"
               />
               <div class="button-overlay">
-                <a
-                  mat-flat-button
-                  color="accent"
-                  (click)="onRecipeSelected(res.id)"
-                  >View Recipe</a
+                <a mat-mini-fab (click)="onRecipeSelected(res.id)">
+                  <mat-icon>description</mat-icon></a
                 >
               </div>
             </div>
-            <mat-card-title>
+            <mat-card-content>
+              <mat-card-title class="search-result-title">
+                {{ res.title }}
+              </mat-card-title>
+              <mat-card-subtitle>{{ res.likes }} likes</mat-card-subtitle>
               <a
                 mat-button
-                color="primary"
                 (click)="onRecipeSelected(res.id)"
                 alt="View Recipe"
-                class="truncated"
-                [title]="res.title"
-                >{{ res.title }}</a
+                class="black"
+                [title]="'View ' + res.title"
+                >VIEW RECIPE</a
               >
-            </mat-card-title>
-            <mat-card-subtitle>{{ res.likes }} likes</mat-card-subtitle>
+            </mat-card-content>
           </mat-card>
         </li>
       </ul>
