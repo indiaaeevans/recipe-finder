@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { IngredientStoreService } from '../ingredient-store.service';
-import { Observable } from 'rxjs';
-import { RecipeSearchService } from '../recipe-search.service';
+import { IngredientStoreService } from '../services/ingredient-store.service';
 import { Router } from '@angular/router';
+import { List } from 'immutable';
+import { SearchOptions } from '../models/search-options';
+import { ParamStoreService } from '../services/param-store.service';
 const DISH_TYPES = [
   'Main course',
   'Side dish',
@@ -21,132 +22,156 @@ const DISH_TYPES = [
   selector: 'app-home',
   template: `
     <div class="wrapper">
-      <form (ngSubmit)="onQuickSearch()">
-        <mat-form-field appearance="outline" class="quick-search-form">
-          <button
-            mat-button
-            color="primary"
-            [disabled]="keyword.length === 0"
-            matPrefix
-            mat-icon-button
-            aria-label="Search Button"
-            type="submit"
-          >
-            <mat-icon>search</mat-icon>
-          </button>
-          <mat-label>Quick Search</mat-label>
-          <input
-            matInput
-            placeholder="skillet lasagna"
-            type="text"
-            [(ngModel)]="keyword"
-            name="keyword"
-          />
-          <button
-            mat-button
-            type="button"
-            color="accent"
-            *ngIf="keyword"
-            matSuffix
-            mat-icon-button
-            aria-label="Clear Button"
-            (click)="keyword = ''"
-          >
-            <mat-icon>close</mat-icon>
-          </button>
-        </mat-form-field>
-      </form>
-      <mat-expansion-panel class="mat-elevation-z0">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Advanced Search
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="advanced-search-form">
-          <div class="form-section">
-            <app-autocomplete
-              type="include"
-              placeholder="Include ingredients..."
-            ></app-autocomplete>
-            <div *ngIf="(includeIngredients$ | async) as includeIngList">
-              <app-chip-list
-                [items]="includeIngList"
-                type="include"
-                color="primary"
-              ></app-chip-list>
-            </div>
-          </div>
-          <div class="form-section">
-            <app-autocomplete
-              type="exclude"
-              placeholder="Exclude ingredients..."
-            ></app-autocomplete>
-            <div *ngIf="(excludeIngredients$ | async) as excludeIngList">
-              <app-chip-list
-                [items]="excludeIngList"
-                type="exclude"
-                color="warn"
-              ></app-chip-list>
-            </div>
-          </div>
-          <div class="form-section">
-            <label id="dish-label">Pick type of dish</label>
-            <mat-radio-group
-              class="radio-group"
-              aria-labelledby="dish-label"
-              [(ngModel)]="dishType"
+      <mat-card>
+        <form (ngSubmit)="onSearch()">
+          <mat-form-field appearance="outline" class="quick-search-form">
+            <span id="scroll-target"></span>
+
+            <button
+              mat-button
+              color="primary"
+              [disabled]="keyword.length === 0"
+              matPrefix
+              mat-icon-button
+              aria-label="Search Button"
+              type="submit"
             >
-              <mat-radio-button
-                class="radio-button"
-                *ngFor="let dish of dishTypes"
-                [value]="dish"
+              <mat-icon>search</mat-icon>
+            </button>
+            <mat-label>Quick Search</mat-label>
+            <input
+              matInput
+              placeholder="blueberry muffins"
+              type="search"
+              [(ngModel)]="keyword"
+              name="keyword"
+            />
+            <button
+              mat-button
+              type="button"
+              color="accent"
+              *ngIf="keyword"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear Button"
+              (click)="keyword = ''"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </form>
+        <mat-expansion-panel (afterExpand)="scroll()" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span>Advanced Search</span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="advanced-search-form">
+            <div class="form-section">
+              <app-autocomplete
+                type="include"
+                placeholder="Include ingredients..."
+              ></app-autocomplete>
+              <div *ngIf="includeIngredients">
+                <app-chip-list
+                  [items]="includeIngredients"
+                  type="include"
+                  color="accent"
+                ></app-chip-list>
+              </div>
+            </div>
+            <div class="form-section">
+              <app-autocomplete
+                type="exclude"
+                placeholder="Exclude ingredients..."
+              ></app-autocomplete>
+              <div *ngIf="excludeIngredients">
+                <app-chip-list
+                  [items]="excludeIngredients"
+                  type="exclude"
+                  color="warn"
+                ></app-chip-list>
+              </div>
+            </div>
+            <div class="form-section">
+              <label id="dish-label">Pick type of dish</label>
+              <mat-radio-group
+                class="radio-group"
+                aria-labelledby="dish-label"
+                [(ngModel)]="dishType"
               >
-                {{ dish }}
-              </mat-radio-button>
-            </mat-radio-group>
+                <mat-radio-button
+                  class="radio-button"
+                  *ngFor="let dish of dishTypes"
+                  [value]="dish"
+                >
+                  {{ dish }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
           </div>
-        </div>
-        <button
-          type="button"
-          class="advanced-search-button"
-          mat-flat-button
-          color="accent"
-          (click)="onAdvancedSearch()"
-        >
-          Search
-        </button>
-      </mat-expansion-panel>
+          <button
+            type="button"
+            class="advanced-search-button"
+            mat-flat-button
+            color="primary"
+            (click)="onSearch()"
+          >
+            Search
+          </button>
+        </mat-expansion-panel>
+      </mat-card>
     </div>
   `,
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   keyword = '';
   dishTypes = DISH_TYPES;
-  dishType: string;
-  includeIngredients$: Observable<any>;
-  excludeIngredients$: Observable<any>;
+  dishType = '';
+  includeIngredients: List<string>;
+  excludeIngredients: List<string>;
   constructor(
     private ingStore: IngredientStoreService,
-    private searchService: RecipeSearchService,
+    private paramStore: ParamStoreService,
     private router: Router
-  ) {
-    this.includeIngredients$ = ingStore.includeIngredients$;
-    this.excludeIngredients$ = ingStore.excludeIngredients$;
+  ) {}
+
+  ngOnInit() {
+    this.ingStore.includeIngredients$.subscribe(
+      value => (this.includeIngredients = value)
+    );
+    this.ingStore.excludeIngredients$.subscribe(
+      value => (this.excludeIngredients = value)
+    );
   }
-  onQuickSearch() {
-    const query = {
-      keyword: this.keyword
-    };
-    this.router.navigate(['/search'], { queryParams: query });
+  scroll() {
+    const el = document.getElementById('scroll-target');
+    el.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
   }
-  onAdvancedSearch() {
-    const query = {
-      keyword: this.keyword,
-      includeIngredients: this.ingStore.getIngredients('include'),
-      excludeIngredients: this.ingStore.getIngredients('exclude'),
-      type: this.dishType
-    };
+
+  onSearch() {
+    const include = this.includeIngredients.join();
+    const exclude = this.excludeIngredients.join();
+    const query = {} as SearchOptions;
+    if (this.keyword.trim().length > 0) {
+      query.keyword = this.keyword.trim();
+    }
+    if (include.length > 0) {
+      query.includeIngredients = include;
+    }
+    if (exclude.length > 0) {
+      query.excludeIngredients = exclude;
+    }
+    if (this.dishType.length > 0) {
+      query.type = this.dishType;
+    }
+    query.size = 10;
+    query.offset = 0;
+    this.paramStore.updateSearchParams(query);
     this.router.navigate(['/search'], { queryParams: query });
   }
 }

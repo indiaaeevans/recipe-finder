@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 import { List } from 'immutable';
+
 @Injectable({
   providedIn: 'root'
 })
 export class IngredientStoreService {
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
-  // observable source
   private includeIngredientsSource: BehaviorSubject<
     List<string>
-  > = new BehaviorSubject(List(['cucumber', 'tomato']));
+  > = new BehaviorSubject(List(['apple', 'banana', 'citrus']));
 
   private excludeIngredientsSource: BehaviorSubject<
     List<string>
-  > = new BehaviorSubject(List(['flour', 'butter']));
+  > = new BehaviorSubject(List([]));
 
-  // observable stream
   includeIngredients$ = this.includeIngredientsSource.asObservable();
   excludeIngredients$ = this.excludeIngredientsSource.asObservable();
 
@@ -36,11 +33,6 @@ export class IngredientStoreService {
         return 'error updating ingredients';
       }
     }
-    // if (this.includeIngredientsSource.getValue().indexOf(ing) < 0) {
-    //   this.includeIngredientsSource.next(
-    //     this.includeIngredientsSource.getValue().push(ing)
-    //   );
-    // }
   }
   removeIngredient(type: string, ing: string) {
     switch (type) {
@@ -56,35 +48,12 @@ export class IngredientStoreService {
         return 'error updating ingredients';
       }
     }
-    // const index = this.includeIngredientsSource.getValue().indexOf(ing);
-    // if (index >= 0) {
-    //   this.includeIngredientsSource.next(
-    //     this.includeIngredientsSource.getValue().delete(index)
-    //   );
-    // }
   }
 
-  getIngredients(type) {
-    if (type === 'include') {
-      return this.includeIngredientsSource
-        .getValue()
-        .concat()
-        .join();
-    } else if (type === 'exclude') {
-      return this.excludeIngredientsSource
-        .getValue()
-        .concat()
-        .join();
-    }
-  }
-
+  // we want to send empty list if user is starting a "fresh" search
   clearIngredients() {
-    this.includeIngredientsSource.next(
-      this.includeIngredientsSource.getValue().clear()
-    );
-    this.excludeIngredientsSource.next(
-      this.excludeIngredientsSource.getValue().clear()
-    );
+    this.includeIngredientsSource.next(List([]));
+    this.excludeIngredientsSource.next(List([]));
   }
 
   addToSource(source: BehaviorSubject<List<string>>, item: string) {

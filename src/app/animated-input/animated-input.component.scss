@@ -1,0 +1,89 @@
+.search-form * {
+  outline: none;
+  border: none;
+  padding: 0;
+}
+
+.search-form {
+  position: relative;
+  margin: 150px auto 0;
+  width: 300px;
+}
+
+.animated-input {
+  border-radius: 36px;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  transition: all 0.5s cubic-bezier(0.87, -0.41, 0.19, 1.44);
+}
+
+.active .animated-input {
+  width: 100%;
+  padding-left: 25px;
+  border-radius: 36px;
+}
+
+.animated-button {
+  background: rgba(255, 255, 255, 1);
+  position: absolute;
+  height: 100%;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  transition: all 0.5s cubic-bezier(0.87, -0.41, 0.19, 1.44);
+}
+
+.animated-button:after {
+  content: ' ';
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  margin: 0 auto;
+  background: rgb(254, 111, 117);
+  border-radius: 50%;
+}
+// MAKES THE LITTLE CIRCLE INSIDE
+.animated-button:before {
+  content: ' ';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: 0;
+  right: 0;
+  top: 20px;
+  transform: scale(0);
+  transform-origin: left top;
+  margin: 0 auto;
+  background: white;
+  border-radius: 50%;
+  z-index: 1;
+  transition: all 0.8s ease;
+}
+.active .animated-button:before {
+  transform: scale(1);
+}
+// MOVES THE BUTTON OVER
+.active .animated-button {
+  transform: translateX(260px);
+}
+
+// .focus:before {
+//   transform: scale(0);
+//   animation: none;
+// }
+
+// @keyframes focus {
+//   0% {
+//     opacity: 0;
+//   }
+//   50% {
+//     opacity: 1;
+//   }
+//   100% {
+//     opacity: 0;
+//   }
+// }

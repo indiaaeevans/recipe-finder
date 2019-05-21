@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,11 +11,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecipeComponent } from './recipe/recipe.component';
 import { AutocompleteComponent } from './autocomplete/autocomplete.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AutocompleteService } from './autocomplete.service';
-import { IngredientStoreService } from './ingredient-store.service';
+import { AutocompleteService } from './services/autocomplete.service';
+import { IngredientStoreService } from './services/ingredient-store.service';
 import { ChipListComponent } from './chip-list/chip-list.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
-import { CustomIconComponent } from './custom-icon/custom-icon.component';
+import { CustomIconService } from './services/custom-icon.service';
+import { GlobalErrorHandler } from './global-error-handler.service';
+import { ParamStoreService } from './services/param-store.service';
+import { AnimatedInputComponent } from './animated-input/animated-input.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,7 @@ import { CustomIconComponent } from './custom-icon/custom-icon.component';
     AutocompleteComponent,
     ChipListComponent,
     SearchResultsComponent,
-    CustomIconComponent
+    AnimatedInputComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,13 @@ import { CustomIconComponent } from './custom-icon/custom-icon.component';
     BrowserAnimationsModule,
     MaterialModule
   ],
-  providers: [AutocompleteService, IngredientStoreService],
+  providers: [
+    AutocompleteService,
+    IngredientStoreService,
+    ParamStoreService,
+    CustomIconService,
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

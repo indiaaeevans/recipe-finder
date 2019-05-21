@@ -1,12 +1,26 @@
-li {
-  display: inline-block;
-  width: 350px;
+// li {
+//   display: inline-block;
+//   width: 350px;
+// }
+.search-result {
+  position: relative;
+}
+
+.tape {
+  position: absolute;
+  padding: 20px 60px;
+  background: rgba(255, 255, 200, 0.6);
+  top: -15px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: 100;
 }
 .grid {
-  justify-items: center;
+  // justify-items: center;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  grid-gap: 20px;
+  grid-gap: 30px;
 }
 .mat-paginator {
   background: none;
@@ -18,6 +32,10 @@ li {
   margin: 40px auto;
   text-align: center;
 }
+.no-results-img {
+  width: 200px;
+  height: auto;
+}
 .truncated {
   width: 100%;
   white-space: nowrap;
@@ -28,13 +46,10 @@ li {
   height: 200px;
   object-fit: cover;
 }
-mat-card {
-  // border-radius: 8px;
-}
 .img-wrapper {
   position: relative;
 }
-.button-overlay {
+.image-hover {
   transition: 0.5s ease;
   opacity: 0;
   position: absolute;
@@ -42,17 +57,19 @@ mat-card {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+  cursor: pointer;
 }
 .clickable-img {
   opacity: 1;
+  cursor: pointer;
+
   // transition: 0.5s ease;
   // backface-visibility: hidden;
-  cursor: pointer;
 }
 .img-wrapper:hover img {
   opacity: 0.3;
 }
-.img-wrapper:hover .button-overlay {
+.img-wrapper:hover .image-hover {
   opacity: 1;
 }
 .animate {
@@ -65,21 +82,27 @@ mat-card {
 .beige {
   background: #f7efe3;
 }
-.black {
-  background: #010b13;
+.button {
+  background: #f8874f;
   color: white;
   font-family: 'Roboto Slab', sans-serif;
-  font-size: 10px;
 }
-.black:hover {
-  background: #ff0266;
-  color: white;
+.button:hover {
+  background: #e26d3b;
+}
+.link {
+  cursor: pointer;
+}
+.link:hover {
+  color: #e26d3b;
 }
 .search-result-title {
   font-family: 'Roboto Slab', sans-serif;
-  font-weight: 700;
+  white-space: nowrap;
+  width: 290px;
+  display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 52px;
   font-size: 16px;
+  color: #303030;
 }

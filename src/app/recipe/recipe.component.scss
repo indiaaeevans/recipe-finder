@@ -4,33 +4,33 @@
     'header header header'
     'nav content side'
     'footer footer footer';
-  grid-template-columns: 400px 1fr 200px;
+  grid-template-columns: 340px 1fr 220px;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
   border: #fea172 solid 10px;
-
-  // margin: 3% 12%;
+  box-sizing: border-box;
 }
 header {
   grid-area: header;
   padding: 20px;
-  // text-align: center;
+  display: flex;
+  justify-content: space-between;
   background: #ffbc93;
-  // border-bottom: #c6dc6a solid 10px;
 }
-header button {
+.recipe-action {
   color: #f7efe3;
+  color: white;
 }
-header button mat-icon {
+.recipe-action mat-icon {
   font-size: 32px;
 }
-header button:hover {
-  // color: #fddcbf;
+.recipe-action:hover {
   color: #e26d3b;
 }
 nav {
   grid-area: nav;
   padding: 20px;
+  box-sizing: border-box;
   background: #f7efe3;
 }
 main {
@@ -42,8 +42,9 @@ aside {
   grid-area: side;
   background: #f7efe3;
 }
-aside section {
-  margin-bottom: 30px;
+aside mat-icon,
+.step-number {
+  font-weight: bold;
 }
 footer {
   grid-area: footer;
@@ -65,10 +66,11 @@ footer {
   margin-bottom: 20px;
 }
 .recipe-title {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: bold;
   margin: 5px;
   color: #e26d3b;
+  font-family: 'Roboto Slab', sans-serif;
 }
 .recipe-options {
   text-align: center;
@@ -89,16 +91,20 @@ footer {
 .recipe-credit {
   color: #f7efe3;
 }
+footer {
+  font-family: 'Roboto Slab', sans-serif;
+}
 .small-img {
+  width: 60px;
+  height: auto;
+  margin-right: 10px;
 }
 .diets {
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
   align-content: center;
-}
-.diets mat-icon {
-  height: 36px;
-  margin-right: 5px;
+  margin: 20px 0;
 }
 .vegan {
   color: forestgreen;
@@ -106,13 +112,36 @@ footer {
 .vegetarian {
   color: orange;
 }
-.dairy {
-  color: lightcoral;
+.dairy-free {
+  color: lightskyblue;
 }
-.gluten {
+.gluten-free {
   color: brown;
 }
 .step-details ul li,
 .step-details ul {
   display: inline-block;
+}
+.mat-divider {
+  margin: 20px 10px;
+}
+@media (max-width: 768px) {
+  .grid-wrapper {
+    grid-template-areas:
+      'header'
+      'nav'
+      'content'
+      'side'
+      'footer';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(74px auto) 1fr minmax(75px, auto) auto;
+  }
+  nav,
+  aside {
+    margin: 0;
+  }
+  .recipe-title {
+    text-align: center;
+    font-size: 18px;
+  }
 }

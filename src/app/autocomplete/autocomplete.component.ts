@@ -11,8 +11,8 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 import {
   AutocompleteService,
   IngredientResponse
-} from '../autocomplete.service';
-import { IngredientStoreService } from '../ingredient-store.service';
+} from '../services/autocomplete.service';
+import { IngredientStoreService } from '../services/ingredient-store.service';
 
 @Component({
   selector: 'app-autocomplete',
@@ -34,7 +34,7 @@ import { IngredientStoreService } from '../ingredient-store.service';
         (optionSelected)="addChip($event, chipInput)"
       >
         <mat-option
-          *ngFor="let option of (autocomplete$ | async)"
+          *ngFor="let option of autocomplete$ | async"
           [value]="option.name"
         >
           {{ option.name }}
