@@ -60,7 +60,7 @@ export class AppComponent {
     this.router.navigate(['/search'], { queryParams: query });
   }
 
-  throwError() {
-    throw new Error('My Pretty Error');
-  }
+  // throwError() {
+  //   throw new Error('My Pretty Error');
+  // }
 }

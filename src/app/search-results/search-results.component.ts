@@ -106,12 +106,12 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   }
 
   onRecipeSelected(id) {
-    const navigationExtras: NavigationExtras = {
-      state: {
-        searchedFor: this.searchParams
-      }
-    };
-    this.router.navigate([`/recipe/${id}`], navigationExtras);
+    // const navigationExtras: NavigationExtras = {
+    //   state: {
+    //     searchedFor: this.searchParams
+    //   }
+    // };
+    this.router.navigate([`/recipe/${id}`]);
   }
 
   onPageChanged(event: PageEvent) {
@@ -136,6 +136,5 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.ingStore.clearIngredients();
-    console.log('cleared ingredient store');
   }
 }

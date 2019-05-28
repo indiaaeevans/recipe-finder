@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IngredientStoreService } from '../services/ingredient-store.service';
 import { Router } from '@angular/router';
 import { List } from 'immutable';
 import { SearchOptions } from '../models/search-options';
 import { ParamStoreService } from '../services/param-store.service';
+import { Observable, Subscription } from 'rxjs';
 const DISH_TYPES = [
   'Main course',
   'Side dish',
@@ -125,10 +126,14 @@ const DISH_TYPES = [
   `,
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   keyword = '';
   dishTypes = DISH_TYPES;
   dishType = '';
+
+  includeIngSubscription: Subscription;
+  excludeIngSubscription: Subscription;
+
   includeIngredients: List<string>;
   excludeIngredients: List<string>;
   constructor(
@@ -138,10 +143,10 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.ingStore.includeIngredients$.subscribe(
+    this.includeIngSubscription = this.ingStore.includeIngredients$.subscribe(
       value => (this.includeIngredients = value)
     );
-    this.ingStore.excludeIngredients$.subscribe(
+    this.excludeIngSubscription = this.ingStore.excludeIngredients$.subscribe(
       value => (this.excludeIngredients = value)
     );
   }
@@ -173,5 +178,9 @@ export class HomeComponent implements OnInit {
     query.offset = 0;
     this.paramStore.updateSearchParams(query);
     this.router.navigate(['/search'], { queryParams: query });
+  }
+  ngOnDestroy() {
+    this.includeIngSubscription.unsubscribe();
+    this.excludeIngSubscription.unsubscribe();
   }
 }

@@ -16,7 +16,7 @@ import { SearchOptions } from '../models/search-options';
       *ngIf="recipe$ | async as recipe"
     >
       <header>
-        <section>
+        <section *ngIf="searchedFor$ | async as searchedFor">
           <a
             mat-icon-button
             class="recipe-action"
@@ -178,7 +178,8 @@ import { SearchOptions } from '../models/search-options';
 export class RecipeComponent implements OnInit {
   id: string;
   recipe$: Observable<Recipe>;
-  searchedFor: SearchOptions;
+  searchedFor$: Observable<SearchOptions>;
+  // searchedFor: SearchOptions;
   constructor(
     private recipeService: RecipeDetailService,
     private route: ActivatedRoute,
@@ -200,9 +201,10 @@ export class RecipeComponent implements OnInit {
     );
   }
   getSearchedFor() {
-    this.paramStore.searchParams$.subscribe(
-      params => (this.searchedFor = params as SearchOptions)
-    );
+    this.searchedFor$ = this.paramStore.searchParams$;
+    // .subscribe(
+    //   params => (this.searchedFor = params as SearchOptions)
+    // );
   }
   openRecipeSource(link) {
     window.open(link, '_blank');
