@@ -1,35 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { map, mergeAll } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { SearchOptions } from '../models/search-options';
 import { SearchResultsResponse } from '../models/search-results-response';
-import { ParamStoreService } from './param-store.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeSearchService {
-  constructor(
-    private http: HttpClient,
-    private paramStore: ParamStoreService
-  ) {}
+  constructor(private http: HttpClient) {}
   options: SearchOptions;
-  initializeSearch() {
-    return this.paramStore.searchParams$
-      .pipe(
-        map(params => this.searchRecipes(params)),
-        mergeAll()
-      )
-      .subscribe(val => console.log(val));
-  }
-
-  // using map and mergeAll
-  // from([1,2,3,4]).pipe(
-  //   map(param => getData(param)),
-  //   mergeAll()
-  // ).subscribe(val => console.log(val));
 
   searchRecipes(params: SearchOptions) {
     const url = this.makeUrl(params);

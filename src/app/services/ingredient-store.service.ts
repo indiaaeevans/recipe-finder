@@ -10,7 +10,7 @@ export class IngredientStoreService {
 
   private includeIngredientsSource: BehaviorSubject<
     List<string>
-  > = new BehaviorSubject(List(['apple', 'banana', 'citrus']));
+  > = new BehaviorSubject(List([]));
 
   private excludeIngredientsSource: BehaviorSubject<
     List<string>

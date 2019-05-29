@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { RecipeSearchService } from '../services/recipe-search.service';
 import { IngredientStoreService } from '../services/ingredient-store.service';
 import { Observable } from 'rxjs';
@@ -106,11 +106,6 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
   }
 
   onRecipeSelected(id) {
-    // const navigationExtras: NavigationExtras = {
-    //   state: {
-    //     searchedFor: this.searchParams
-    //   }
-    // };
     this.router.navigate([`/recipe/${id}`]);
   }
 

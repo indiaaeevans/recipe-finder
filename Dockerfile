@@ -1,5 +1,6 @@
 ### STAGE 1: Build ###
 FROM node:10-alpine as node
+ARG PORT
 
 WORKDIR /usr/src/app
 
@@ -13,6 +14,7 @@ COPY . .
 RUN npm run build
 
 FROM nginx:1.14.1-alpine
+ENV PORT = $PORT
 
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*

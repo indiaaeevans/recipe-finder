@@ -159,10 +159,12 @@ import { SearchOptions } from '../models/search-options';
         <section class="diets"></section>
       </aside>
       <footer>
+      <div *ngIf="recipe.creditText">
         Credit
         <span class="recipe-credit">
           {{ recipe.creditText }}
         </span>
+        </div>
       </footer>
       <ng-template #noImage>
         <img
@@ -202,9 +204,6 @@ export class RecipeComponent implements OnInit {
   }
   getSearchedFor() {
     this.searchedFor$ = this.paramStore.searchParams$;
-    // .subscribe(
-    //   params => (this.searchedFor = params as SearchOptions)
-    // );
   }
   openRecipeSource(link) {
     window.open(link, '_blank');
