@@ -1,91 +1,14 @@
-// @import '~@angular/material/theming';
-// @include mat-core();
-// $recipe-finder-app-primary: mat-palette($mat-indigo);
-// $recipe-finder-app-accent: mat-palette($mat-pink, A200, A100, A400);
-
-// $recipe-finder-app-warn: mat-palette($mat-red);
-
-// $recipe-finder-app-theme: mat-light-theme(
-//   $recipe-finder-app-primary,
-//   $recipe-finder-app-accent,
-//   $recipe-finder-app-warn
-// );
-
-// @include angular-material-theme($recipe-finder-app-theme);
 @import '~@angular/material/theming';
 @include mat-core();
-// @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-$my-custom-primary-color: (
-  50: #f4eaef,
-  100: #e4cad7,
-  200: #d3a6bc,
-  300: #c182a1,
-  400: #b3688d,
-  500: #a64d79,
-  600: #9e4671,
-  700: #953d66,
-  800: #8b345c,
-  900: #7b2549,
-  A100: #ffbcd7,
-  A200: #ff89b8,
-  A400: #ff5699,
-  A700: #ff3c8a,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #ffffff
-  )
-);
+// @include angular-material-theme($my-app-theme);
+$my-app-primary: mat-palette($mat-pink);
+$my-app-accent: mat-palette($mat-orange, A200, A100, A400);
 
-$my-custom-accent-color: (
-  50: #f2f8ef,
-  100: #dfedd8,
-  200: #c9e2be,
-  300: #b3d6a4,
-  400: #a3cd91,
-  500: #93c47d,
-  600: #8bbe75,
-  700: #80b66a,
-  800: #76af60,
-  900: #64a24d,
-  A100: #ffffff,
-  A200: #daffcd,
-  A400: #b4ff9a,
-  A700: #a1ff80,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #000000,
-    600: #000000,
-    700: #000000,
-    800: #000000,
-    900: #000000,
-    A100: #000000,
-    A200: #000000,
-    A400: #000000,
-    A700: #000000
-  )
-);
+// The warn palette is optional (defaults to red).
+$my-app-warn: mat-palette($mat-red);
 
-$my-app-primary: mat-palette($my-custom-primary-color);
-$my-app-accent: mat-palette($my-custom-accent-color, 500, 900, A100);
-$my-app-warn: mat-palette($mat-deep-orange);
-
+// Create the theme object (a Sass map containing all of the palettes).
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
 
 @include angular-material-theme($my-app-theme);
@@ -94,29 +17,21 @@ html,
 body {
   height: 100%;
 }
-body {
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-content: stretch;
-  align-items: stretch;
-  height: 100vh;
-}
-app-root {
-  order: 0;
-  flex: 1 1 auto;
-  align-self: auto;
-  display: block;
-}
-footer {
-  text-align: center;
-  color: white;
-  padding: 40px;
-  background: #7b2549;
-  flex-shrink: 0;
-  font-family: 'Roboto Slab', sans-serif;
-}
+// body {
+//   padding: 0;
+//   margin: 0;
+//   display: flex;
+//   flex-direction: column;
+//   align-content: stretch;
+//   align-items: stretch;
+//   height: 100vh;
+// }
+// app-root {
+//   order: 0;
+//   flex: 1 1 auto;
+//   align-self: auto;
+//   display: block;
+// }
 a {
   color: #ffbc93;
   text-decoration: none;

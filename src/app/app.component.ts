@@ -8,7 +8,7 @@ import { SearchOptions } from './models/search-options';
   template: `
     <span id="top-of-page"></span>
     <nav>
-      <mat-toolbar color="primary">
+      <mat-toolbar color="accent" id="navbar">
         <section>
           <a routerLink="/home" mat-icon-button>
             <mat-icon aria-label="Home">home</mat-icon>
@@ -32,9 +32,12 @@ import { SearchOptions } from './models/search-options';
         </section>
       </mat-toolbar>
     </nav>
-    <main>
-      <router-outlet></router-outlet>
-    </main>
+    <div class="wrapper">
+      <main>
+        <router-outlet class="main mat-app-background"></router-outlet>
+      </main>
+      <footer></footer>
+    </div>
   `,
   styleUrls: ['./app.component.scss']
 })

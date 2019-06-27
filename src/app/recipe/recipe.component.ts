@@ -11,6 +11,7 @@ import { SearchOptions } from '../models/search-options';
 @Component({
   selector: 'app-recipe',
   template: `
+  <div class="recipe">
     <div
       class="grid-wrapper mat-elevation-z4"
       *ngIf="recipe$ | async as recipe"
@@ -174,6 +175,7 @@ import { SearchOptions } from '../models/search-options';
         />
       </ng-template>
     </div>
+    </div>
   `,
   styleUrls: ['./recipe.component.scss']
 })
@@ -181,7 +183,6 @@ export class RecipeComponent implements OnInit {
   id: string;
   recipe$: Observable<Recipe>;
   searchedFor$: Observable<SearchOptions>;
-  // searchedFor: SearchOptions;
   constructor(
     private recipeService: RecipeDetailService,
     private route: ActivatedRoute,

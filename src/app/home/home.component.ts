@@ -22,8 +22,18 @@ const DISH_TYPES = [
 @Component({
   selector: 'app-home',
   template: `
+    <header>
+      <h1>Recipe Finder</h1>
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+        <polygon
+          class="mat-app-background"
+          fill="#fafafa"
+          points="0,100 100,0 100,100"
+        />
+      </svg>
+    </header>
     <div class="wrapper">
-      <mat-card>
+      <mat-card class="advanced-search-card">
         <form (ngSubmit)="onSearch()">
           <mat-form-field appearance="outline" class="quick-search-form">
             <span id="scroll-target"></span>
@@ -77,7 +87,7 @@ const DISH_TYPES = [
                 <app-chip-list
                   [items]="includeIngredients"
                   type="include"
-                  color="accent"
+                  color="primary"
                 ></app-chip-list>
               </div>
             </div>
@@ -90,7 +100,7 @@ const DISH_TYPES = [
                 <app-chip-list
                   [items]="excludeIngredients"
                   type="exclude"
-                  color="warn"
+                  color="primary"
                 ></app-chip-list>
               </div>
             </div>
@@ -100,6 +110,7 @@ const DISH_TYPES = [
                 class="radio-group"
                 aria-labelledby="dish-label"
                 [(ngModel)]="dishType"
+                color="primary"
               >
                 <mat-radio-button
                   class="radio-button"
@@ -136,6 +147,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   includeIngredients: List<string>;
   excludeIngredients: List<string>;
+
   constructor(
     private ingStore: IngredientStoreService,
     private paramStore: ParamStoreService,
@@ -174,7 +186,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.dishType.length > 0) {
       query.type = this.dishType;
     }
-    query.size = 10;
+    query.size = 12;
     query.offset = 0;
     this.paramStore.updateSearchParams(query);
     this.router.navigate(['/search'], { queryParams: query });

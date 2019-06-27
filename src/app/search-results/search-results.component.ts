@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RecipeSearchService } from '../services/recipe-search.service';
 import { IngredientStoreService } from '../services/ingredient-store.service';
 import { Observable } from 'rxjs';
-import { map, mergeAll } from 'rxjs/operators';
+import { map, mergeAll, switchMap } from 'rxjs/operators';
 import { PageEvent, MatPaginator } from '@angular/material';
 import { SearchOptions } from '../models/search-options';
 import { SearchResultsResponse } from '../models/search-results-response';
@@ -78,8 +78,8 @@ import { ParamStoreService } from '../services/param-store.service';
 })
 export class SearchResultsComponent implements OnInit, OnDestroy {
   results$: Observable<SearchResultsResponse>;
-  pageSize = 10;
-  pageSizeOptions = [10, 20];
+  pageSize = 12;
+  pageSizeOptions = [12, 24];
   searchParams: SearchOptions;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -97,11 +97,10 @@ export class SearchResultsComponent implements OnInit, OnDestroy {
 
   initializeSearch() {
     this.results$ = this.paramStore.searchParams$.pipe(
-      map(params => {
+      switchMap(params => {
         this.searchParams = params as SearchOptions;
         return this.searchService.searchRecipes(params);
-      }),
-      mergeAll()
+      })
     );
   }
 
